@@ -21,7 +21,7 @@
     position: absolute;
     font-size: 50px;
     white-space: nowrap;
-    left: 50%;
+    left: 48%;
     visibility: visible;
     
   }
@@ -46,11 +46,25 @@
     right: 10px;
   }
 
+  .overlay {
+    position: absolute;
+    top: 54%;
+    left: 53%;
+    transform: translate(-50%, -50%);
+    width: 15%;
+    height: 10rem;
+    background-color: rgba(0, 0, 0, 0.3); 
+    z-index: 1;
+    visibility: hidden;
+}
+
 </style>
 </head>
 <body>
+  
   <button id="stop">Stop scrolling</button>
   <button id="reroll">Reroll</button>
+  <div class="overlay"></div>
   <div class="container">
     <div class="name">Mr. G</div>
     <div class="name">Hashem</div>
@@ -78,11 +92,11 @@
     const spacing = containerHeight / totalNames;
     const initialPositions = Array.from(names, (_, i) => i * spacing);
 
-    rerollButton.style.visibility = 'hidden';
-    let scrolling = true; // Flag to control scrolling
-    let scrollSpeed = 100; // Initial scroll speed (pixels per frame)
-    let slowingDown = false; // Flag to indicate slowing down
-    let slowdownFactor = 0.968; // Slowdown factor per frame
+    rerollButton.style.display = 'none';
+    let scrolling = true; 
+    let scrollSpeed = 100;
+    let slowingDown = false; 
+    let slowdownFactor = 0.968; 
 
     function updateScroll() {
       if (scrolling) {
@@ -113,17 +127,16 @@
     
 
     stopButton.addEventListener('click', () => {
-      // Recalculate initial positions based on current positions
       names.forEach((name, i) => {
         const rect = name.getBoundingClientRect();
         initialPositions[i] = rect.top;
       });
 
       slowingDown = true;
-      stopButton.disabled = true; // Disable the button during slowdown
+      stopButton.disabled = true;
       setTimeout(() => {
         slowingDown = false;
-        stopButton.disabled = false; // Enable the button after slowdown
+        stopButton.disabled = false;
         
         // Find the name closest to the middle
         let closestNameIndex = 0;
@@ -135,8 +148,8 @@
             closestNameIndex = i;
           }
         }
-        rerollButton.style.visibility = 'visible';
-        stopButton.style.visibility = 'hidden';
+        rerollButton.style.display = 'block';
+        stopButton.style.display = 'none';
         // Show the winner on the screen and hide other names
         const winnerText = document.getElementById('winnerText');
         document.getElementById("winnerText").style.visibility = "visible";
@@ -155,8 +168,8 @@
         });
         scrolling = true;
         scrollSpeed = 100;
-        rerollButton.style.visibility = 'hidden';
-        stopButton.style.visibility = 'visible';
+        rerollButton.style.display = 'none';
+        stopButton.style.display = 'block';
       });
     });
 

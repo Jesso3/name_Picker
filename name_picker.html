@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
+  
+  .container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .name {
+    position: absolute;
+    font-size: 50px;
+    white-space: nowrap;
+    left: 50%;
+    visibility: visible;
+    
+  }
+
+  .name-hidden {
+    visibility: hidden;
+  }
+
+  .winner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 75px;
+    display: none;
+    text-align: center;
+  }
+
+  .clear-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+</style>
+</head>
+<body>
+  <button id="stop">Stop scrolling</button>
+  <button id="reroll">Reroll</button>
+  <div class="container">
+    <div class="name">Mr. G</div>
+    <div class="name">Hashem</div>
+    <div class="name">Darius</div>
+    <div class="name">Thomas</div>
+    <div class="name">Charlie</div>
+    <div class="name">Ben</div>
+    <div class="name">Minjune</div>
+    <div class="name">Selia</div>
+    <div class="name">Diya</div>
+    <div class="name">Max</div>
+    <div class="name">Jesse</div>
+    <div class="name">Jonah</div>
+    <div class="name">Simon</div>
+    <div class="name">Hendrik</div>
+  </div>
+  <div class="winner-text" id="winnerText"></div>
+  
+
+  <script>
+    const rerollButton = document.getElementById('reroll');
+    const names = document.querySelectorAll('.name');
+    const containerHeight = document.querySelector('.container').offsetHeight;
+    const totalNames = names.length;
+    const spacing = containerHeight / totalNames;
+    const initialPositions = Array.from(names, (_, i) => i * spacing);
+
+    rerollButton.style.visibility = 'hidden';
+    let scrolling = true; // Flag to control scrolling
+    let scrollSpeed = 100; // Initial scroll speed (pixels per frame)
+    let slowingDown = false; // Flag to indicate slowing down
+    let slowdownFactor = 0.968; // Slowdown factor per frame
+
+    function updateScroll() {
+      if (scrolling) {
+        if (slowingDown) {
+          scrollSpeed *= slowdownFactor;
+          if (scrollSpeed < 0.1) {
+            scrollSpeed = 0;
+            slowingDown = false;
+            scrolling = false;
+          }
+        }
+
+        for (let i = 0; i < names.length; i++) {
+          initialPositions[i] += scrollSpeed;
+          if (initialPositions[i] >= containerHeight) {
+            initialPositions[i] = initialPositions[i] - containerHeight;
+          }
+          names[i].style.transform = `translateY(${initialPositions[i]}px)`;
+        }
+      }
+
+      requestAnimationFrame(updateScroll);
+    }
+
+    updateScroll();
+
+    const stopButton = document.getElementById('stop');
+    
+
+    stopButton.addEventListener('click', () => {
+      // Recalculate initial positions based on current positions
+      names.forEach((name, i) => {
+        const rect = name.getBoundingClientRect();
+        initialPositions[i] = rect.top;
+      });
+
+      slowingDown = true;
+      stopButton.disabled = true; // Disable the button during slowdown
+      setTimeout(() => {
+        slowingDown = false;
+        stopButton.disabled = false; // Enable the button after slowdown
+        
+        // Find the name closest to the middle
+        let closestNameIndex = 0;
+        let minDistance = Math.abs(containerHeight / 2 - initialPositions[0]);
+        for (let i = 1; i < names.length; i++) {
+          const distance = Math.abs(containerHeight / 2 - initialPositions[i]);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestNameIndex = i;
+          }
+        }
+        rerollButton.style.visibility = 'visible';
+        stopButton.style.visibility = 'hidden';
+        // Show the winner on the screen and hide other names
+        const winnerText = document.getElementById('winnerText');
+        document.getElementById("winnerText").style.visibility = "visible";
+        winnerText.textContent = `The winner is ${names[closestNameIndex].textContent}!`;
+        winnerText.style.display = 'block';
+
+        // Hide non-winning names
+        names.forEach((name, i) => {
+            name.classList.add('name-hidden');
+        });
+      }, 5000); // 5000 milliseconds (5 seconds) for slowdown
+      rerollButton.addEventListener('click', () => {
+        document.getElementById("winnerText").style.visibility = "hidden";
+        names.forEach((name, i) => {
+            name.classList.remove('name-hidden');
+        });
+        scrolling = true;
+        scrollSpeed = 100;
+        rerollButton.style.visibility = 'hidden';
+        stopButton.style.visibility = 'visible';
+      });
+    });
+
+  </script>
+</body>
+</html>

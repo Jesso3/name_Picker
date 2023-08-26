@@ -21,7 +21,7 @@
     position: absolute;
     font-size: 50px;
     white-space: nowrap;
-    left: 48%;
+    left: 44.5%;
     top: 20px;
     line-height: 1;
     visibility: visible;
@@ -44,9 +44,9 @@
   .overlay {
     position: absolute;
     top: 47%;
-    left: 53%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 16%;
+    width: 20%;
     height: 12rem;
     background-color: rgba(0, 0, 0, 0.3); 
     z-index: 1;
@@ -55,7 +55,7 @@
 
   .triangle-left {
     position: absolute;
-    left: 46%;
+    left: 42%;
     top: 44%;
     transform: translateX(-50%);
     width: 0;
@@ -70,7 +70,7 @@
     width: 800px;
     height: auto; 
     top: 50%; 
-    left: 54%; 
+    left: 50%; 
     transform: translate(-50%, -50%);
     z-index: 1; 
   }
@@ -87,7 +87,7 @@
     border-radius: 100%;
     position: absolute;
     top: 62%;
-    left: 53%;
+    left: 48.9%;
     transform: translateX(-50%);
     z-index: 2;
   }
@@ -203,7 +203,7 @@
         names.forEach((name, i) => {
             name.classList.add('name-hidden');
         });
-      }, 7000);
+      }, 8000);
       rerollButton.addEventListener('click', () => {
         document.getElementById("winnerText").style.visibility = "hidden";
         names.forEach((name, i) => {

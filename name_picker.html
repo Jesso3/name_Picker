@@ -22,8 +22,9 @@
     font-size: 50px;
     white-space: nowrap;
     left: 48%;
+    top: 20px;
+    line-height: 1;
     visibility: visible;
-    
   }
 
   .name-hidden {
@@ -40,32 +41,68 @@
     text-align: center;
   }
 
-  .clear-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-
   .overlay {
     position: absolute;
-    top: 54%;
+    top: 47%;
     left: 53%;
     transform: translate(-50%, -50%);
-    width: 15%;
-    height: 10rem;
+    width: 16%;
+    height: 12rem;
     background-color: rgba(0, 0, 0, 0.3); 
     z-index: 1;
-    visibility: hidden;
-}
+    visibility: visible;
+  }
 
+  .triangle-left {
+    position: absolute;
+    left: 46%;
+    top: 44%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-left: 50px solid #555;
+    border-bottom: 25px solid transparent;
+  }
+
+  .slot-machine {
+    position: absolute;
+    width: 800px;
+    height: auto; 
+    top: 50%; 
+    left: 54%; 
+    transform: translate(-50%, -50%);
+    z-index: 1; 
+  }
+
+  .button {
+    background-color: #d10101; 
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 100%;
+    position: absolute;
+    top: 62%;
+    left: 53%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
 </style>
 </head>
 <body>
   
-  <button id="stop">Stop scrolling</button>
-  <button id="reroll">Reroll</button>
-  <div class="overlay"></div>
+  <div class="winner-text" id="winnerText"></div>
+  <div id="overlay" class="overlay"></div>
+  <div id="triangle" class="triangle-left"></div>
+  <button id="stop" class="button">Stop scrolling</button>
+  <button id="reroll" class="button">Reroll</button>
+  <img src="slot machine.png" alt="Slot Machine" class="slot-machine" id="slot">
   <div class="container">
+    
     <div class="name">Mr. G</div>
     <div class="name">Hashem</div>
     <div class="name">Darius</div>
@@ -81,11 +118,13 @@
     <div class="name">Simon</div>
     <div class="name">Hendrik</div>
   </div>
-  <div class="winner-text" id="winnerText"></div>
   
-
   <script>
+    const triangle = document.getElementById('triangle');
+    const overlay = document.getElementById('overlay');
     const rerollButton = document.getElementById('reroll');
+    const machine = document.getElementById('slot');
+
     const names = document.querySelectorAll('.name');
     const containerHeight = document.querySelector('.container').offsetHeight;
     const totalNames = names.length;
@@ -96,7 +135,7 @@
     let scrolling = true; 
     let scrollSpeed = 100;
     let slowingDown = false; 
-    let slowdownFactor = 0.968; 
+    let slowdownFactor = 0.985; 
 
     function updateScroll() {
       if (scrolling) {
@@ -140,9 +179,9 @@
         
         // Find the name closest to the middle
         let closestNameIndex = 0;
-        let minDistance = Math.abs(containerHeight / 2 - initialPositions[0]);
+        let minDistance = Math.abs(containerHeight / 2.4 - initialPositions[0]);
         for (let i = 1; i < names.length; i++) {
-          const distance = Math.abs(containerHeight / 2 - initialPositions[i]);
+          const distance = Math.abs(containerHeight / 2.4 - initialPositions[i]);
           if (distance < minDistance) {
             minDistance = distance;
             closestNameIndex = i;
@@ -151,6 +190,9 @@
         
         stopButton.style.display = 'none';
         rerollButton.style.display = 'block';
+        triangle.style.display = 'none';
+        overlay.style.display = 'none';
+        machine.style.display = 'none';
         // Show the winner on the screen and hide other names
         const winnerText = document.getElementById('winnerText');
         document.getElementById("winnerText").style.visibility = "visible";
@@ -161,7 +203,7 @@
         names.forEach((name, i) => {
             name.classList.add('name-hidden');
         });
-      }, 5000); // 5000 milliseconds (5 seconds) for slowdown
+      }, 7000);
       rerollButton.addEventListener('click', () => {
         document.getElementById("winnerText").style.visibility = "hidden";
         names.forEach((name, i) => {
@@ -171,6 +213,9 @@
         scrollSpeed = 100;
         rerollButton.style.display = 'none';
         stopButton.style.display = 'block';
+        triangle.style.display = 'block';
+        overlay.style.display = 'block';
+        machine.style.display = 'block';
       });
     });
 

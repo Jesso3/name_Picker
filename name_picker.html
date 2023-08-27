@@ -57,7 +57,7 @@
   .triangle-left {
     position: absolute;
     left: 42.5%;
-    top: 52.6vh;
+    top: 53.4vh;
     transform: translate(-50%, -50%);
     width: 0;
     height: 0;
@@ -190,9 +190,9 @@
         
         // Find the name closest to the middle
         let closestNameIndex = 0;
-        let minDistance = Math.abs(containerHeight / 2.5 - initialPositions[0]);
+        let minDistance = Math.abs(containerHeight / 2.8 - initialPositions[0]);
         for (let i = 1; i < names.length; i++) {
-          const distance = Math.abs(containerHeight / 2.5 - initialPositions[i]);
+          const distance = Math.abs(containerHeight / 2.8 - initialPositions[i]);
           if (distance < minDistance) {
             minDistance = distance;
             closestNameIndex = i;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
   body {
     margin: 0;
@@ -19,10 +19,11 @@
   
   .name {
     position: absolute;
-    font-size: 50px;
+    font-size: 2.5vw; /* Use viewport units for font size */
     white-space: nowrap;
-    left: 44.5%;
-    top: 20px;
+    left: 45%;
+    top: 5%;
+    transform: translate(-50%, -50%);
     line-height: 1;
     visibility: visible;
   }
@@ -34,16 +35,16 @@
   .winner-text {
     position: absolute;
     top: 50%;
-    left: 47%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 75px;
+    font-size: 3.5vw; /* Use viewport units for font size */
     display: none;
     text-align: center;
   }
 
   .overlay {
     position: absolute;
-    top: 47%;
+    top: 46%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 20%;
@@ -55,19 +56,19 @@
 
   .triangle-left {
     position: absolute;
-    left: 42%;
-    top: 44%;
-    transform: translateX(-50%);
+    left: 42.5%;
+    top: 47%;
+    transform: translate(-50%, -50%);
     width: 0;
     height: 0;
-    border-top: 25px solid transparent;
-    border-left: 50px solid #555;
-    border-bottom: 25px solid transparent;
+    border-top: 1.7vw solid transparent; /* Use viewport units for border */
+    border-left: 2.6vw solid #555; /* Use viewport units for border */
+    border-bottom: 1.7vw solid transparent; /* Use viewport units for border */
   }
 
   .slot-machine {
     position: absolute;
-    width: 800px;
+    width: 40vw; /* Use viewport units for width */
     height: auto; 
     top: 50%; 
     left: 50%; 
@@ -76,34 +77,31 @@
   }
 
   .button {
-  background-color: #d10101; 
-  border: none;
-  color: white;
-  padding: 15px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 100%;
-  position: absolute;
-  top: 62%;
-  left: 45.5%;
-  box-shadow: 0 9px #999;
-  z-index: 2;
-}
+    background-color: #d10101; 
+    border: none;
+    color: white;
+    padding: 0.93vw; /* Use viewport units for padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.93vw; /* Use viewport units for font size */
+    border-radius: 100%;
+    position: absolute;
+    top: 62%;
+    left: 45.5%;
+    box-shadow: 0 0.6vw #999; /* Use viewport units for shadow */
+    z-index: 2;
+  }
 
-  
-.button:hover {background-color: #c20000}
+  .button:hover {
+    background-color: #c20000;
+  }
 
-.button:active {
-  background-color: #c20000;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-
-}
-
-
-
+  .button:active {
+    background-color: #c20000;
+    box-shadow: 0 0.4vw #666; /* Use viewport units for shadow */
+    transform: translateY(0.4vw); /* Use viewport units for translation */
+  }
 </style>
 </head>
 <body>
@@ -192,9 +190,9 @@
         
         // Find the name closest to the middle
         let closestNameIndex = 0;
-        let minDistance = Math.abs(containerHeight / 2.4 - initialPositions[0]);
+        let minDistance = Math.abs(containerHeight / 2.5 - initialPositions[0]);
         for (let i = 1; i < names.length; i++) {
-          const distance = Math.abs(containerHeight / 2.4 - initialPositions[i]);
+          const distance = Math.abs(containerHeight / 2.5 - initialPositions[i]);
           if (distance < minDistance) {
             minDistance = distance;
             closestNameIndex = i;
